@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Command">
+    <Text>IntermediateModule02 - Command 1</Text>
+    <Description>Some description</Description>
+    <Assembly>IntermediateModule02\IntermediateModule02.dll</Assembly>
+    <FullClassName>IntermediateModule02.Command1</FullClassName>
+    <ClientId>afbfbd40-c636-414e-a175-34d196786a9b</ClientId>
+    <VendorId>com.YOUR COMPANY NAME</VendorId>
+    <VendorDescription>YOUR COMPANY NAME, YOUR COMPANY URL</VendorDescription>
+  </AddIn>
+  <AddIn Type="Command">
+    <Text>IntermediateModule02 - Command 2</Text>
+    <Description>Some description</Description>
+    <Assembly>IntermediateModule02\IntermediateModule02.dll</Assembly>
+    <FullClassName>IntermediateModule02.Command2</FullClassName>
+    <ClientId>d0bb34ae-5239-485a-ad9f-478be0e3761e</ClientId>
+    <VendorId>com.YOUR COMPANY NAME</VendorId>
+    <VendorDescription>YOUR COMPANY NAME, YOUR COMPANY URL</VendorDescription>
+  </AddIn>
+  <AddIn Type="Application">
+    <Name>IntermediateModule02</Name>
+    <Assembly>IntermediateModule02\IntermediateModule02.dll</Assembly>
+    <FullClassName>IntermediateModule02.App</FullClassName>
+    <ClientId>6d3c87cf-bb3b-4847-91da-be2568c2619b</ClientId>
+    <VendorId>com.YOUR COMPANY NAME</VendorId>
+    <VendorDescription>YOUR COMPANY NAME, YOUR COMPANY URL</VendorDescription>
+  </AddIn>
+</RevitAddIns>
