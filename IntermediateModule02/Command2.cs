@@ -45,13 +45,13 @@ namespace IntermediateModule02
             tags.Add("Rooms", curRoomTag);
             tags.Add("Walls", curWallTag);
             tags.Add("Curtain Walls", curCurtainWallTag);
-            tags.Add("Furnitures", curFurnitureTag);
+            tags.Add("Furniture", curFurnitureTag);
             tags.Add("Lighting Fixtures", curLightingFixtureTag);
             tags.Add("Windows", curWindowsTag);
 
             // Create a list of specific tag names
             List<string> CeilingPlan = new List<string> { "Lighting Fixtures", "Rooms" };
-            List<string> FloorPlan = new List<string> { "Curtain Walls", "Doors", "Furnitures", "Rooms",
+            List<string> FloorPlan = new List<string> { "Curtain Walls", "Doors", "Furniture", "Rooms",
             "Walls", "Windows"};
 
 
