@@ -15,20 +15,7 @@ namespace IntermediateModule02
 
             // 1a. Filtered Element Collector by view
             View curView = doc.ActiveView;
-            FilteredElementCollector collector = new FilteredElementCollector(doc, curView.Id);
 
-            // 1b. ElementMultiCategoryFilter
-            List<BuiltInCategory> catList = new List<BuiltInCategory>();
-            catList.Add(BuiltInCategory.OST_Areas);
-            catList.Add(BuiltInCategory.OST_Walls);
-            catList.Add(BuiltInCategory.OST_Doors);
-            catList.Add(BuiltInCategory.OST_Furniture);
-            catList.Add(BuiltInCategory.OST_LightingFixtures);
-            catList.Add(BuiltInCategory.OST_Rooms);
-            catList.Add(BuiltInCategory.OST_Windows);
-
-            ElementMulticategoryFilter catFilter = new ElementMulticategoryFilter(catList);
-            collector.WherePasses(catFilter).WhereElementIsNotElementType();
 
             // use LINQ to get family symbol by name
             FamilySymbol curDoorTag = GetFamilySymbolByName(doc, "M_Door Tag");
@@ -54,8 +41,48 @@ namespace IntermediateModule02
             List<string> FloorPlan = new List<string> { "Curtain Walls", "Doors", "Furniture", "Rooms",
             "Walls", "Windows"};
 
-
             ViewType curViewType = curView.ViewType;
+
+            // ElementMultiCategoryFilter
+            List<BuiltInCategory> catList = new List<BuiltInCategory>();
+
+
+            switch (curViewType)
+            {
+                case ViewType.AreaPlan:
+
+                catList.Add(BuiltInCategory.OST_Areas);
+
+                    break;
+
+
+                case ViewType.CeilingPlan:
+
+                catList.Add(BuiltInCategory.OST_LightingFixtures);
+                catList.Add(BuiltInCategory.OST_Rooms);
+
+                    break;
+                case ViewType.FloorPlan:
+
+                    catList.Add(BuiltInCategory.OST_Rooms);
+                    catList.Add(BuiltInCategory.OST_Windows);
+                    catList.Add(BuiltInCategory.OST_Doors);
+                    catList.Add(BuiltInCategory.OST_Furniture);
+                    catList.Add(BuiltInCategory.OST_Walls);
+
+                    break;
+                case ViewType.Section:
+
+                    catList.Add(BuiltInCategory.OST_Rooms);
+
+                    break;
+            }
+
+            ElementMulticategoryFilter catFilter = new ElementMulticategoryFilter(catList);
+            FilteredElementCollector collector = new FilteredElementCollector(doc, curView.Id);
+            collector.WherePasses(catFilter).WhereElementIsNotElementType();
+
+            //TaskDialog.Show("test", $"Found {collector.GetElementCount()} element");
 
 
             int counter = 0;
@@ -86,10 +113,7 @@ namespace IntermediateModule02
                                 curAreaTag.TagHeadPosition = new XYZ(insPoint.X, insPoint.Y, 0);
                                 curAreaTag.HasLeader = false;
                             }
-                                                        counter++;
                             break;
-
-
                         case ViewType.CeilingPlan:
                             foreach (string category in CeilingPlan)
                             {
@@ -105,7 +129,6 @@ namespace IntermediateModule02
                                         curRef, false, TagOrientation.Horizontal, insPoint);
                                 }
                             }
-                            counter++;
                             break;
                         case ViewType.FloorPlan:
                             foreach (string category in FloorPlan)
@@ -125,7 +148,6 @@ namespace IntermediateModule02
                                     }
                                 }
                             }
-                            counter++;
                             break;
                         case ViewType.Section:
                             FamilySymbol curTagSecType = tags["Rooms"];
@@ -137,10 +159,13 @@ namespace IntermediateModule02
                             IndependentTag newTag1 = IndependentTag.Create(doc, curTagSecType.Id, curView.Id,
                                 curRefSec, false, TagOrientation.Horizontal, insPoint);
                             newTag1.TagHeadPosition = insPoint.Add(new XYZ(0, 0, 3));
-                            counter++;
                             break;
-
+                        default:
+                            //it didnt work dont know why
+                            TaskDialog.Show("Error", "Sorry. Cannot add tags to this view type.");
+                            return Result.Failed;
                     }
+                            counter++;
                 }
                 t.Commit();
             }
